@@ -2,12 +2,12 @@
   "expo": {
     "name": "RoughlyBudget",
     "slug": "RoughlyBudget",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/appstore.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/RoughlyBudgetLogo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -15,16 +15,25 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.onion0211.RoughlyBudget",
+      "buildNumber": "1.0.1"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/playstore.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.onion0211.RoughlyBudget",
+      "versionCode": 1.1
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/RoughlyBudgetLogo.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "269cb4f7-9ef4-4800-8a28-6c8075ac15cc"
+      }
     }
   }
 }
