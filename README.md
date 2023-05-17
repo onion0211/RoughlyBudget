@@ -17,7 +17,6 @@ https://kr.freepik.com/free-photo/white-crumpled-paper-texture-for-background_11
 
 1차 개발 List
 - [ ] 버튼 누르면 스샷 찍을 수 있게 하는 라이브러리 찾기(자동으로 갤러리에 저장)
-- [ ] 구겨진 종이 이미지 라이선스 표시 <a href="https://kr.freepik.com/free-photo/white-crumpled-paper-texture-for-background_1189772.htm">작가 aopsan</a> 출처 Freepik
 - [x] 버튼 누르면 공유할 수 있는 기능 구현
 - [x] Receipt 테마 형태로 여유자금 산출(이쁘게 만들기)
 - [x] 버튼 click시 페이지 이동을 할껀지? Flag 걸어서 view 전환을 할껀지? 결정
