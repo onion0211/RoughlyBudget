@@ -1,9 +1,9 @@
-# RoughlyBudget
+# 💰 RoughlyBudget
 
-## Description
-**대충 예산을 짜서 한달 여유자금이 얼마나 되는지 대충 짐작하는 앱**
+## 📝 Description
+**- 대충 예산을 짜서 한달 여유자금이 얼마나 되는지 대충 짐작하는 앱**
 
-*(추가) 신용카드를 쓰는 사용자는 카드대금이 빠져나간 진짜 쓸 수 있는 한달 월급 산출 / 안쓰는 사용자는 고정비용, 예상 지출 비용을 제외한 한달 월급 산출*
+*- (추가) 신용카드를 쓰는 사용자는 카드대금이 빠져나간 진짜 쓸 수 있는 한달 월급 산출 / 안쓰는 사용자는 고정비용, 예상 지출 비용을 제외한 한달 월급 산출*
 
 ---
 구겨진 종이 이미지 라이선스: 
@@ -15,7 +15,9 @@ https://kr.freepik.com/free-photo/white-crumpled-paper-texture-for-background_11
 ---
 
 
-1차 개발 List
+• 📍 1차 개발 List
+
+
 - [ ] 버튼 누르면 스샷 찍을 수 있게 하는 라이브러리 찾기(자동으로 갤러리에 저장)
 - [x] 버튼 누르면 공유할 수 있는 기능 구현
 - [x] Receipt 테마 형태로 여유자금 산출(이쁘게 만들기)
@@ -31,8 +33,17 @@ https://kr.freepik.com/free-photo/white-crumpled-paper-texture-for-background_11
         - [x] 일부분만 입력 안했을 때
     - [x] 한달 고정 수입은 입력했지만 예산 리스트가 없을때
     - [x] 한달 고정 수입 입력안했을 때
+
+**📺 result screen**
+<div>
+    <img width="200" src="https://github.com/onion0211/RoughlyBudget/assets/110289407/14d57acf-3406-40b5-9219-d74b62919ddd">
+    <img width="200" src="https://github.com/onion0211/RoughlyBudget/assets/110289407/4ec2d9f0-67e6-4314-83fc-390ac640a124">
+    <img width="200" src="https://github.com/onion0211/RoughlyBudget/assets/110289407/227ec5c5-a8c7-49af-9938-a2ba3a4589ce">
+</div>
+
 ---
-• 2차 개발 List
+
+• 📍 2차 개발 List
 
 To-Do List
 - [ ] 사용자가 첫 화면에서 신용카드를 사용하는지? 안하는지 선택(전자일 경우 카후 디자인으로 보여주기)
