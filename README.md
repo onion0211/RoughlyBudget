@@ -6,7 +6,12 @@
 *(추가) 신용카드를 쓰는 사용자는 카드대금이 빠져나간 진짜 쓸 수 있는 한달 월급 산출 / 안쓰는 사용자는 고정비용, 예상 지출 비용을 제외한 한달 월급 산출*
 
 ---
-구겨진 종이 이미지 라이선스: "https://kr.freepik.com/free-photo/white-crumpled-paper-texture-for-background_1189772.htm”, 작가 aopsan, 출처 Freepik
+구겨진 종이 이미지 라이선스: 
+
+https://kr.freepik.com/free-photo/white-crumpled-paper-texture-for-background_1189772.htm
+
+작가 aopsan, 출저 Freepik
+
 ---
 
 
