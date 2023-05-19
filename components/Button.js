@@ -1,5 +1,6 @@
 import { TouchableOpacity, View } from "react-native";
 import { Image, Text } from "react-native-elements";
+import { Shadow } from "react-native-shadow-2";
 import cancel from "../assets/icons/cancel.png";
 import plus from "../assets/icons/plus.png";
 import reset from "../assets/icons/reset.png";
@@ -8,17 +9,15 @@ const Button = ({
   type,
   activeOpacity,
   onClick,
-  size,
-  color,
   text,
   style,
   disable,
   fontStyle,
   widthP,
   flexP,
+  shadow,
+  shadowStyle,
 }) => {
-  const Size = size || 15;
-  const Color = color || "black";
   const Type = type || "";
   const ActiveOpacity = activeOpacity || 0.5;
   const Font = fontStyle || {
@@ -57,23 +56,34 @@ const Button = ({
         );
     }
   };
-  return (
-    <TouchableOpacity
-      activeOpacity={ActiveOpacity}
-      onPress={(e) => {
-        e.stopPropagation();
-        onClick && onClick(e);
-      }}
-      disabled={disable || false}
-      style={{
-        opacity: disable ? 0.3 : 1,
-        width: widthP && "100%",
-        flex: flexP && 1,
-      }}
-    >
-      {ButtonType()}
-    </TouchableOpacity>
-  );
+
+  const defaultFrame = () => {
+    return (
+      <TouchableOpacity
+        activeOpacity={ActiveOpacity}
+        onPress={(e) => {
+          e.stopPropagation();
+          onClick && onClick(e);
+        }}
+        disabled={disable || false}
+        style={{
+          opacity: disable ? 0.3 : 1,
+          width: widthP && "100%",
+          flex: flexP && 1,
+        }}
+      >
+        {ButtonType()}
+      </TouchableOpacity>
+    );
+  };
+
+  if (shadow)
+    return (
+      <Shadow style={shadowStyle} distance={10} startColor={"#00000030"}>
+        {defaultFrame()}
+      </Shadow>
+    );
+  else return defaultFrame();
 };
 
 export default Button;

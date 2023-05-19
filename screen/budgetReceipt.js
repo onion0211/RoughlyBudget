@@ -317,7 +317,6 @@ const BudgetReceiptScreen = ({ navigation, route }) => {
             paddingVertical: 10,
             alignItem: "center",
           }}
-          size={25}
           fontStyle={styles.bottomButtonTextContainer}
           onClick={() => {
             shareReceipt();
@@ -330,7 +329,6 @@ const BudgetReceiptScreen = ({ navigation, route }) => {
             paddingVertical: 10,
             alignItem: "center",
           }}
-          size={25}
           fontStyle={styles.bottomButtonTextContainer}
           onClick={() => {
             navigation.navigate("Main");

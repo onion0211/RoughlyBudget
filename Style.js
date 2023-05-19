@@ -8,6 +8,7 @@ export const styles = StyleSheet.create({
   },
   headContainer: {
     justifyContent: "center",
+    alignItems: "center",
     width: "100%",
   },
   headText: {

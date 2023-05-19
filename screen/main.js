@@ -15,7 +15,8 @@ import { styles } from "../Style";
 Text.defaultProps = Text.defaultProps || {};
 Text.defaultProps.allowFontScaling = false;
 
-const MainScreen = ({ navigation }) => {
+const MainScreen = ({ navigation, route }) => {
+  const { creditCard } = route.params;
   const [budgetList, setBudgetList] = useState({});
   const [showAddBudget, setShowAddBudget] = useState(false);
   const [budgetListCheck, setBudgetListCheck] = useState(false);
@@ -210,7 +211,7 @@ const MainScreen = ({ navigation }) => {
     <SafeAreaView style={styles.bodyContainer_safeArea}>
       <StatusBar style="auto" />
       <View style={styles.headContainer}>
-        <Text style={styles.headText}>대~충 예산</Text>
+        <Text style={styles.headText}>진짜 월급</Text>
       </View>
       <View style={styles.monthBudgetContainer}>
         <Text style={styles.bottomSheetHeaderText}>한 달 고정 수입</Text>
@@ -306,13 +307,12 @@ const MainScreen = ({ navigation }) => {
 
       <View style={styles.bottomButtonContainer}>
         <Button
-          text={"한 달 여유자금은~~?"}
+          text={"진짜 월급은?"}
           style={{
             paddingVertical: 10,
             width: "100%",
             alignItem: "center",
           }}
-          size={25}
           fontStyle={styles.bottomButtonTextContainer}
           onClick={() => {
             setShowModal(!showModal);
