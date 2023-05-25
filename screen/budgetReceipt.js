@@ -19,9 +19,11 @@ import Item from "../components/Item";
 import { styles } from "../lib/Style";
 import { utilityService } from "../lib/utilityService";
 
-const Receipt = forwardRef(({ data, budget }, ref) => {
+const Receipt = forwardRef(({ data, budget, creditCard, cardValue }, ref) => {
   const totalCost = data.reduce((total, item) => total + item.cost, 0);
-  const extraMoney = budget - totalCost;
+  const extraMoney = creditCard
+    ? budget - totalCost - cardValue
+    : budget - totalCost;
   let QRText;
 
   if (extraMoney < 0) {
@@ -37,7 +39,7 @@ const Receipt = forwardRef(({ data, budget }, ref) => {
   const QRguide =
     "* 스마트폰 카메라를 QR 코드 위에 위치시키세요. \n* QR 코드가 인식되면 자동으로 링크 또는 정보를 불러옵니다. \n* 인식이 안 될 경우, 카메라 앱 설정에서 QR 코드 인식 기능을 활성화하세요. \n* QR 코드가 손상되었을 경우, 해당 링크 또는 정보를 수동으로 입력해주세요. \n* 불필요한 어플리케이션 설치 및 피싱 사기에 주의하세요. 확인되지 않은 QR 코드는 스캔하지 마세요.";
   const requestText =
-    "'대~충 예산' 앱에 대해 요청하고 싶은 것, 궁금한 점이 있으시면 아래 메일로 문의해주세요. \n이용해주셔서 감사합니다. \nbdh04085@gmail.com";
+    "'진짜 월급' 앱에 대해 요청하고 싶은 것, 궁금한 점이 있으시면 아래 메일로 문의해주세요. \n이용해주셔서 감사합니다. \nbdh04085@gmail.com";
 
   return (
     <ScrollView
@@ -49,7 +51,7 @@ const Receipt = forwardRef(({ data, budget }, ref) => {
       <ViewShot
         ref={ref}
         options={{
-          fileName: `대~충_예산_${utilityService.getToDay()}`,
+          fileName: `진짜_월급_${utilityService.getToDay()}`,
           format: "jpg",
           quality: 1,
         }}
@@ -71,10 +73,10 @@ const Receipt = forwardRef(({ data, budget }, ref) => {
           >
             <View
               style={{
-                borderBottomColor: "#7B7D7D",
-                borderBottomWidth: 2,
-                borderTopWidth: 2,
-                borderTopColor: "#7B7D7D",
+                // borderBottomColor: "#7B7D7D",
+                // borderBottomWidth: 2,
+                // borderTopWidth: 2,
+                // borderTopColor: "#7B7D7D",
                 borderStyle: "dashed",
                 paddingVertical: 10,
                 width: "100%",
@@ -90,7 +92,7 @@ const Receipt = forwardRef(({ data, budget }, ref) => {
                   color: "#424242",
                 }}
               >
-                대~충 예산
+                진짜 월급
               </Text>
             </View>
             <View
@@ -155,12 +157,27 @@ const Receipt = forwardRef(({ data, budget }, ref) => {
               style={{ flexGrow: 1, paddingHorizontal: 10, marginVertical: 15 }}
             >
               {data.map((item, index) => (
-                <Item
-                  key={index}
-                  name={item.name}
-                  cost={item.cost}
-                  result={false}
-                />
+                <>
+                  <Item
+                    key={index}
+                    name={item.name}
+                    cost={item.cost}
+                    result={false}
+                  />
+                  {item.sub.length > 0 &&
+                    item.sub.map((obj, idx) => {
+                      return (
+                        <Item
+                          key={idx}
+                          name={obj.name}
+                          cost={Number(utilityService.removeComma(obj.cost))}
+                          size={10}
+                          result={false}
+                          type={"sub"}
+                        />
+                      );
+                    })}
+                </>
               ))}
             </View>
             <View
@@ -172,27 +189,47 @@ const Receipt = forwardRef(({ data, budget }, ref) => {
               }}
             >
               <Item
-                key={"Total"}
-                name={"Total"}
-                cost={totalCost}
-                result={true}
-                color={extraMoney > 0 ? "#B22211" : "#3833A8"}
-                size={20}
-              />
-              <Item
                 key={"monthBudget"}
-                name={"한 달 \n고정 수입"}
+                name={"예산"}
                 cost={budget}
                 result={true}
                 color={"#424242"}
                 size={20}
               />
+              {creditCard && (
+                <Item
+                  key={"Card"}
+                  name={`${new Date().getMonth()}월 카드 값`}
+                  cost={cardValue}
+                  result={true}
+                  color={"#B22211"}
+                  size={20}
+                  type={"consum"}
+                />
+              )}
+              <Item
+                key={"Total"}
+                name={"Total"}
+                cost={totalCost}
+                result={true}
+                color={"#B22211"}
+                size={20}
+                type={"consum"}
+              />
+            </View>
+            <View
+              style={{
+                borderTopWidth: 1.5,
+                borderTopColor: "#5F5F5F",
+                paddingVertical: 10,
+              }}
+            >
               <Item
                 key={"extraMoney"}
-                name={"여유 자금"}
+                name={creditCard ? "카후" : "세후"}
                 cost={extraMoney}
                 result={true}
-                color={extraMoney < 0 ? "#B22211" : "#3833A8"}
+                color={"#3833A8"}
                 size={20}
               />
             </View>
@@ -252,8 +289,8 @@ const Receipt = forwardRef(({ data, budget }, ref) => {
   );
 });
 
-const BudgetReceiptScreen = ({ navigation, route, creditCard }) => {
-  const { receiptList, monthBudget } = route.params;
+const BudgetReceiptScreen = ({ navigation, route }) => {
+  const { receiptList, monthBudget, creditCard, cardValue } = route.params;
 
   const data = JSON.parse(receiptList);
 
@@ -301,7 +338,15 @@ const BudgetReceiptScreen = ({ navigation, route, creditCard }) => {
             marginVertical: 10,
           }}
         >
-          <Receipt data={data} budget={monthBudget} ref={receiptRef} />
+          <ViewShot options={{ format: "jpg" }}>
+            <Receipt
+              data={data}
+              budget={Number(utilityService.removeComma(monthBudget))}
+              creditCard={creditCard}
+              cardValue={cardValue}
+              ref={receiptRef}
+            />
+          </ViewShot>
         </Animated.View>
       </View>
       <View

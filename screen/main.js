@@ -5,6 +5,7 @@ import React, { useRef, useState } from "react";
 import {
   FlatList,
   Image,
+  Keyboard,
   Platform,
   SafeAreaView,
   ScrollView,
@@ -75,7 +76,7 @@ const MainScreen = ({ navigation, route }) => {
   };
 
   //월급, 카드 값
-  const ref_Salary = useRef();
+  const ref_Card = useRef();
   const [salary, setSalary] = useState("");
   const [card, setCard] = useState("");
 
@@ -121,7 +122,7 @@ const MainScreen = ({ navigation, route }) => {
       case "change":
         list.map((obj) => {
           if (obj.key === key) {
-            obj.cost = value;
+            obj.cost = Number(utilityService.removeComma(value));
           }
         });
         setBudgetList([...list]);
@@ -263,7 +264,7 @@ const MainScreen = ({ navigation, route }) => {
         text: "한 달 고정 수입을 입력해주세요!",
         button: buttonObj,
       };
-    } else if (creditCard && (card === 0 || card === "")) {
+    } else if (typeChange && (card === 0 || card === "")) {
       return {
         text: `${monthIndex}월 카드 값을 입력해주세요!`,
         button: buttonObj,
@@ -310,9 +311,9 @@ const MainScreen = ({ navigation, route }) => {
             click: () => {
               navigation.navigate("budgetReceipt", {
                 receiptList: JSON.stringify(budgetList),
-                monthBudget: salary,
-
-                creditCard: creditCard,
+                monthBudget: Number(utilityService.removeComma(salary)),
+                creditCard: typeChange,
+                cardValue: Number(utilityService.removeComma(card)),
               });
               setShowModal(!showModal);
             },
@@ -334,8 +335,9 @@ const MainScreen = ({ navigation, route }) => {
             click: () => {
               navigation.navigate("budgetReceipt", {
                 receiptList: JSON.stringify(budgetList),
-                monthBudget: salary,
-                creditCard: creditCard,
+                monthBudget: Number(utilityService.removeComma(salary)),
+                creditCard: typeChange,
+                cardValue: Number(utilityService.removeComma(card)),
               });
               setShowModal(!showModal);
             },
@@ -398,9 +400,9 @@ const MainScreen = ({ navigation, route }) => {
             fontSize: 20,
           }}
           autoFocus={true}
-          returnKeyType={creditCard ? "next" : "default"}
+          returnKeyType={typeChange ? "next" : "default"}
           onSubmitEditing={() => {
-            if (creditCard) ref_Salary.current.focus();
+            if (typeChange) ref_Card.current.focus();
           }}
         />
         <Text style={{ fontFamily: "dunggeunmo" }}>원</Text>
@@ -432,7 +434,7 @@ const MainScreen = ({ navigation, route }) => {
               fontFamily: "dunggeunmo",
               fontSize: 20,
             }}
-            ref={ref_Salary}
+            ref={ref_Card}
           />
           <Text style={{ fontFamily: "dunggeunmo" }}>원</Text>
         </View>
@@ -447,7 +449,11 @@ const MainScreen = ({ navigation, route }) => {
       >
         <IconButton
           icon={(props) => <Icon name="plus" size={15} {...props} />}
-          onPress={() => buttonHandler("open")}
+          onPress={() => {
+            Keyboard.dismiss();
+            buttonHandler("open");
+            // if (typeChange) ref_Card.current.blur();
+          }}
           style={{ width: 30, height: 30 }}
         />
         <IconButton
@@ -525,8 +531,8 @@ const MainScreen = ({ navigation, route }) => {
                     style={{
                       fontSize: 15,
                       fontFamily: "dunggeunmo",
-                      maxWidth: 45,
-                      minWidth: 45,
+                      maxWidth: 50,
+                      minWidth: 50,
                     }}
                   >
                     {item.name}
@@ -550,7 +556,7 @@ const MainScreen = ({ navigation, route }) => {
                     style={{
                       borderBottomColor: "#000000",
                       borderBottomWidth: 1,
-                      minWidth: 100,
+                      width: 100,
                       textAlign: "right",
                       fontFamily: "dunggeunmo",
                       fontSize: 15,
@@ -602,16 +608,17 @@ const MainScreen = ({ navigation, route }) => {
                               value: value,
                             });
                           }}
+                          multiline
                           placeholder="카테고리"
                           style={{
                             borderBottomColor: "#000000",
                             borderBottomWidth: 1,
-                            maxWidth: 100,
-                            minWidth: 50,
+                            width: 50,
                             textAlign: "center",
                             fontFamily: "dunggeunmo",
                             fontSize: 13,
                             marginHorizontal: 15,
+                            flexWrap: "wrap",
                           }}
                         />
                         <TextInput
@@ -630,7 +637,7 @@ const MainScreen = ({ navigation, route }) => {
                           style={{
                             borderBottomColor: "#000000",
                             borderBottomWidth: 1,
-                            minWidth: 130,
+                            width: 130,
                             textAlign: "right",
                             fontFamily: "dunggeunmo",
                             fontSize: 13,
