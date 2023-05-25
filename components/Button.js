@@ -63,7 +63,7 @@ const Button = ({
         activeOpacity={ActiveOpacity}
         onPress={(e) => {
           e.stopPropagation();
-          onClick && onClick(e);
+          onClick(e);
         }}
         disabled={disable || false}
         style={{

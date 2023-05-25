@@ -16,8 +16,8 @@ import ViewShot from "react-native-view-shot";
 import crumpledPaper from "../assets/white-crumpled-paper-texture-for-background.jpg";
 import Button from "../components/Button";
 import Item from "../components/Item";
+import { styles } from "../lib/Style";
 import { utilityService } from "../lib/utilityService";
-import { styles } from "../Style";
 
 const Receipt = forwardRef(({ data, budget }, ref) => {
   const totalCost = data.reduce((total, item) => total + item.cost, 0);
@@ -252,7 +252,7 @@ const Receipt = forwardRef(({ data, budget }, ref) => {
   );
 });
 
-const BudgetReceiptScreen = ({ navigation, route }) => {
+const BudgetReceiptScreen = ({ navigation, route, creditCard }) => {
   const { receiptList, monthBudget } = route.params;
 
   const data = JSON.parse(receiptList);
@@ -331,7 +331,7 @@ const BudgetReceiptScreen = ({ navigation, route }) => {
           }}
           fontStyle={styles.bottomButtonTextContainer}
           onClick={() => {
-            navigation.navigate("Main");
+            navigation.navigate("Main", { creditCard: creditCard });
           }}
           flexP={true}
         />

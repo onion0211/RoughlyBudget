@@ -15,14 +15,14 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.onion0211.RoughlyBudget",
+      "bundleIdentifier": "com.onion0211.realBudget",
       "buildNumber": "1.0.1"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/playstore.png"
       },
-      "package": "com.onion0211.RoughlyBudget",
+      "package": "com.onion0211.realBudget",
       "versionCode": 1.1
     },
     "web": {

@@ -38,6 +38,7 @@ const ModalComponent = ({ showModal, setShowModal, text, buttonList }) => {
                 fontSize: 15,
                 justifyContent: "center",
                 margin: 15,
+                flexWrap: "wrap",
               }}
             >
               {text}
