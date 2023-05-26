@@ -4,6 +4,7 @@ import * as Font from "expo-font";
 import { useEffect, useState } from "react";
 import { Image } from "react-native-elements";
 import "react-native-gesture-handler";
+import { RootSiblingParent } from "react-native-root-siblings";
 import logo from "./assets/RoughlyBudgetLogo.jpeg";
 import BudgetReceiptScreen from "./screen/budgetReceipt";
 import ChooseScreen from "./screen/chooseType";
@@ -37,30 +38,36 @@ export default function App() {
 
   if (isLoading) {
     return (
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="ChooseType"
-          screenOptions={{ backgroundColor: "white" }}
-        >
-          <Stack.Screen
-            name="ChooseType"
-            component={ChooseScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Main"
-            component={MainScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="budgetReceipt"
-            component={BudgetReceiptScreen}
-            options={{ headerShown: false }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <RootSiblingParent>
+        <NavigationContainer>
+          <Stack.Navigator
+            initialRouteName="ChooseType"
+            screenOptions={{ backgroundColor: "white" }}
+          >
+            <Stack.Screen
+              name="ChooseType"
+              component={ChooseScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Main"
+              component={MainScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="budgetReceipt"
+              component={BudgetReceiptScreen}
+              options={{ headerShown: false }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </RootSiblingParent>
     );
   } else {
-    return <Image source={logo} style={{ width: "100%", height: "100%" }} />;
+    return (
+      <RootSiblingParent>
+        <Image source={logo} style={{ width: "100%", height: "100%" }} />
+      </RootSiblingParent>
+    );
   }
 }

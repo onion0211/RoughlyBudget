@@ -1,3 +1,4 @@
+import * as MediaLibrary from "expo-media-library";
 import * as Sharing from "expo-sharing";
 import { StatusBar } from "expo-status-bar";
 import React, { forwardRef, useEffect, useRef } from "react";
@@ -11,6 +12,7 @@ import {
   View,
 } from "react-native";
 import QRCode from "react-native-qrcode-svg";
+import Toast from "react-native-root-toast";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ViewShot from "react-native-view-shot";
 import crumpledPaper from "../assets/white-crumpled-paper-texture-for-background.jpg";
@@ -20,6 +22,7 @@ import { styles } from "../lib/Style";
 import { utilityService } from "../lib/utilityService";
 
 const Receipt = forwardRef(({ data, budget, creditCard, cardValue }, ref) => {
+  console.log("##budget, cardValue", budget, cardValue);
   const totalCost = data.reduce((total, item) => total + item.cost, 0);
   const extraMoney = creditCard
     ? budget - totalCost - cardValue
@@ -27,13 +30,21 @@ const Receipt = forwardRef(({ data, budget, creditCard, cardValue }, ref) => {
   let QRText;
 
   if (extraMoney < 0) {
-    QRText = `예산이 ${Math.abs(
-      extraMoney
-    )}원 초과됐어요ㅠㅅㅠ \n예산 리스트를 다시 짜보는걸 추천드립니다! ;)`;
+    QRText = QRText = `당신의 ${
+      creditCard ? "카후" : "세후"
+    }는 -${utilityService.addCommaText(
+      Math.abs(extraMoney)
+    )}원 입니다.\n허리띠 졸라 매야합니다!!!!`;
   } else if (extraMoney === 0) {
-    QRText = `당신의 이번 달 여유자금은 없어요! \n다음 달에는 예산 리스트를 줄여보도록 노력합시다아~! ;)`;
+    QRText = `당신의 이번 달 ${
+      creditCard ? "카후" : "세후"
+    }는 없어요! \n다음 달에는 예산 리스트를 줄여보도록 노력합시다아~! ;)`;
   } else {
-    QRText = `당신의 이번 달 여유자금은 ${extraMoney}원 입니다~! \n여유 자금을 알차게 써봐요! ;)`;
+    QRText = `당신의 이번 달 ${
+      creditCard ? "카후" : "세후"
+    }는 ${utilityService.addCommaText(
+      extraMoney
+    )}원 입니다~! \n여유 자금을 알차게 써봐요! ;)`;
   }
 
   const QRguide =
@@ -157,7 +168,7 @@ const Receipt = forwardRef(({ data, budget, creditCard, cardValue }, ref) => {
               style={{ flexGrow: 1, paddingHorizontal: 10, marginVertical: 15 }}
             >
               {data.map((item, index) => (
-                <>
+                <View key={`${item.key}`}>
                   <Item
                     key={index}
                     name={item.name}
@@ -177,7 +188,7 @@ const Receipt = forwardRef(({ data, budget, creditCard, cardValue }, ref) => {
                         />
                       );
                     })}
-                </>
+                </View>
               ))}
             </View>
             <View
@@ -305,11 +316,51 @@ const BudgetReceiptScreen = ({ navigation, route }) => {
   }, [translateY]);
 
   const receiptRef = useRef();
+
+  const hasAndroidPermission = async () => {
+    const permission = await MediaLibrary.getPermissionsAsync();
+    if (permission.canAskAgain && permission.status !== "granted") {
+      const permissionResponse = await MediaLibrary.requestPermissionsAsync();
+      if (permissionResponse.status !== "granted") return false;
+      else return true;
+    } else if (permission.status !== "granted") {
+      return false;
+    } else return true;
+  };
+
+  const onSave = async (uri) => {
+    if (Platform.OS === "android" && !(await hasAndroidPermission())) {
+      //갤러리 접근 권한 없다고 알려주기
+      return Toast.show(
+        '갤러리 접근 권한이 없어요. 설정에서 "진짜 월급"의 권한을 On 해주세요!',
+        {
+          duration: Toast.durations.SHORT,
+          position: 150,
+          animation: true,
+          hideOnPress: true,
+          delay: 0,
+          opacity: 0.7,
+        }
+      );
+    }
+
+    await MediaLibrary.saveToLibraryAsync(uri).then(
+      Toast.show("갤러리에 영수증을 저장했어요!", {
+        duration: Toast.durations.SHORT,
+        position: 150,
+        animation: true,
+        hideOnPress: true,
+        delay: 0,
+        opacity: 0.7,
+      })
+    );
+  };
   const shareReceipt = async () => {
     const uri = await receiptRef.current
       .capture()
       .catch((err) => console.log("##err : ", err));
 
+    await onSave(uri);
     await Sharing.shareAsync(Platform.OS === "ios" ? `file://${uri}` : uri, {
       mimeType: "image/png",
       dialogTitle: "공유하기",
@@ -338,15 +389,13 @@ const BudgetReceiptScreen = ({ navigation, route }) => {
             marginVertical: 10,
           }}
         >
-          <ViewShot options={{ format: "jpg" }}>
-            <Receipt
-              data={data}
-              budget={Number(utilityService.removeComma(monthBudget))}
-              creditCard={creditCard}
-              cardValue={cardValue}
-              ref={receiptRef}
-            />
-          </ViewShot>
+          <Receipt
+            data={data}
+            budget={Number(utilityService.removeComma(monthBudget))}
+            creditCard={creditCard}
+            cardValue={cardValue}
+            ref={receiptRef}
+          />
         </Animated.View>
       </View>
       <View

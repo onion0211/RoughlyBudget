@@ -32,6 +32,16 @@
       "eas": {
         "projectId": "269cb4f7-9ef4-4800-8a28-6c8075ac15cc"
       }
-    }
+    },
+    "plugins": [
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "Allow 진짜 월급 to access your photos.",
+          "savePhotosPermission": "Allow 진짜 월급 to save photos.",
+          "isAccessMediaLocationEnabled": true
+        }
+      ]
+    ]
   }
 }
