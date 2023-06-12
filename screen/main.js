@@ -175,7 +175,8 @@ const MainScreen = ({ navigation, route }) => {
         list.map((obj) => {
           if (obj.key === category) {
             obj.sub.map((it) => {
-              if (it.key === key) it.cost = value;
+              if (it.key === key)
+                it.cost = Number(utilityService.removeComma(value));
               if (it.sub !== "")
                 sum += Number(utilityService.removeComma(it.cost));
             });
@@ -386,7 +387,7 @@ const MainScreen = ({ navigation, route }) => {
         <TextInput
           value={utilityService.addCommaText(salary)}
           onChangeText={(value) => {
-            setSalary(value);
+            setSalary(Number(utilityService.removeComma(value)));
           }}
           keyboardType="numeric"
           placeholder="0"
@@ -422,7 +423,7 @@ const MainScreen = ({ navigation, route }) => {
           <TextInput
             value={utilityService.addCommaText(card)}
             onChangeText={(value) => {
-              setCard(value);
+              setCard(Number(utilityService.removeComma(value)));
             }}
             keyboardType="numeric"
             placeholder="0"

@@ -1,13 +1,13 @@
 {
   "expo": {
     "name": "진짜 월급",
-    "slug": "realBudget",
+    "slug": "RoughlyBudget",
     "version": "2.0.1",
     "orientation": "portrait",
     "icon": "./assets/appstore.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/RoughlyBudgetLogo.jpeg",
+      "image": "./assets/RoughlyBudgetLogo.png",
       "resizeMode": "cover"
     },
     "assetBundlePatterns": [
@@ -15,18 +15,18 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.onion0211.realBudget",
+      "bundleIdentifier": "com.onion0211.RoughlyBudget",
       "buildNumber": "1.0.1"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/playstore.png"
       },
-      "package": "com.onion0211.realBudget",
-      "versionCode": 1.1
+      "package": "com.onion0211.RoughlyBudget",
+      "versionCode": 2
     },
     "web": {
-      "favicon": "./assets/RoughlyBudgetLogo.jpeg"
+      "favicon": "./assets/RoughlyBudgetLogo.png"
     },
     "extra": {
       "eas": {

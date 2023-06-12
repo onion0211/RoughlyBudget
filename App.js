@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { Image } from "react-native-elements";
 import "react-native-gesture-handler";
 import { RootSiblingParent } from "react-native-root-siblings";
-import logo from "./assets/RoughlyBudgetLogo.jpeg";
+import logo from "./assets/RoughlyBudgetLogo.png";
 import BudgetReceiptScreen from "./screen/budgetReceipt";
 import ChooseScreen from "./screen/chooseType";
 import MainScreen from "./screen/main";
